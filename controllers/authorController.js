@@ -1,6 +1,13 @@
-import db from "../db.js"
+import db from "../db.js";
 
-export default async function getAuthorById(req, res) {
+const asyncUtil = (fn) =>
+    function asyncUtilWrap(...args) {
+        const fnReturn = fn(...args);
+        const next = args[args.length - 1];
+        return Promise.resolve(fnReturn).catch(next);
+    };
+
+const getAuthorById = asyncUtil(async (req, res) => {
     const { authorId } = req.params;
 
     const author = await db.getAuthorById(Number(authorId));
@@ -11,4 +18,6 @@ export default async function getAuthorById(req, res) {
     }
 
     res.send(`Author Name: ${author.name}`);
-}
+});
+
+export default getAuthorById;

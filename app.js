@@ -15,4 +15,9 @@ app.use("/authors", authorRouter)
 app.use("/books", bookRouter)
 app.use("/", indexRouter)
 
+app.use((err, req, res, next) => {
+    console.erro(err)
+    res.statusCode(500).res.send(err)
+})
+
 app.listen(PORT, () => console.log(`listening on http://localhost:${PORT}!`))
