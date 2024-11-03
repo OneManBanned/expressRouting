@@ -17,7 +17,7 @@ app.use("/", indexRouter)
 
 app.use((err, req, res, next) => {
     console.erro(err)
-    res.statusCode(500).res.send(err)
+    res.statusCode(err.statusCode || 500).res.send(err.message)
 })
 
 app.listen(PORT, () => console.log(`listening on http://localhost:${PORT}!`))

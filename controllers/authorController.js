@@ -1,4 +1,5 @@
 import db from "../db.js";
+import CustomerNotFoundError from "../errors/customNotFoundError.js";
 
 const asyncUtil = (fn) =>
     function asyncUtilWrap(...args) {
@@ -13,8 +14,7 @@ const getAuthorById = asyncUtil(async (req, res) => {
     const author = await db.getAuthorById(Number(authorId));
 
     if (!author) {
-        res.status(404).send("Author not found");
-        return;
+        throw new CustomerNotFoundError("Author not found");
     }
 
     res.send(`Author Name: ${author.name}`);
